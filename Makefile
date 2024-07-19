@@ -1,14 +1,22 @@
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -pthread
-SRC_DIR = src/
+CFLAGS = -Wall -Werror -Wextra -pthread -I ./inc
+THREADS = -pthread
+SRC_DIR = src/obj
 FIND = $(shell find $(SRC_DIR))
 SRC = $(filter %.c, $(FIND))
+OBJ = ${SRC:.c=.o}
+
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(SRC)
-		$(CC) $(SRC) -o $(NAME)
+$(NAME): $(OBJ)
+		ar -rcs philo.a $(OBJ)
+		$(CC) $(CFLAGS) src/main.c philo.a -o $(NAME)
+		make clean
+		clear
 
 git:
 	@git add -A
@@ -17,9 +25,12 @@ git:
 	@echo Checkpoint created and pushed to remote
 
 clean:
-		rm -rf $(NAME)
+		rm -rf $(OBJ)
+		clear
 
 fclean: clean
+		rm -rf philo.a
 		rm -rf $(NAME)
+		clear
 
 re: fclean all

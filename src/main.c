@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:03:38 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/07/19 12:54:26 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:00:04 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ int	check_time_die(char *av, t_infos *infos)
 	int	time_to_die;
 
 	time_to_die = atol(av);
-	printf("%d\n", time_to_die);
-	if (time_to_die < 1 || time_to_die > MAX_INT)
+	if (time_to_die < 60 || time_to_die > MAX_INT)
 		return (printf("Invalid time to die!\n"), 0);
 	else
 		infos->philo_die = time_to_die;
@@ -102,7 +101,7 @@ int	check_must_eat(char *av, t_infos *infos)
 	return (1);
 }
 
-int	check_params(char **av, t_infos *infos)
+int	check_infos(char **av, t_infos *infos)
 {
 	if (!check_philos(av[1], infos))
 		return (0);
@@ -127,7 +126,7 @@ int	main(int ac, char **av)
 
 	if (!validate_input(ac, av))
 		return (0);
-	if (!check_params(av, &infos))
+	if (!check_infos(av, &infos))
 		return (0);
 	start_philo(av, &philo, &infos);
 }

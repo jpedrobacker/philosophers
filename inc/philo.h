@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/07/19 12:56:21 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:15:33 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,18 @@ typedef struct s_mutex
 	pthread_mutex_t	mutex_stop;
 	pthread_mutex_t	mutex_eaten;
 	pthread_mutex_t	mutex_print;
+	int				eaten;
+	int				stop;
 }	t_mutex;
 
 typedef struct s_philo
 {
-	char	*str;
-	int		philo_num;
-	t_infos	*infos;
-	t_mutex	*mutex;
-	struct s_philo *next;
+	int				forks;
+	int				has_eaten;
+	int				has_died;
+	t_infos			*infos;
+	t_mutex			*mutex;
+	struct s_philo	*next;
 }	t_philo;
 
 /*-- Philo funcs --*/

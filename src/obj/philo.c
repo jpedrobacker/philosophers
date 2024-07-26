@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/07/22 12:16:55 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/07/22 18:05:50 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	start_mutex(t_mutex *mutex, t_infos *infos)
 
 int	start_threads(t_philo *philo)
 {
-	
+
 }
 
 void	start_philo(char **av, t_philo *philo, t_infos *infos)

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:03:38 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/07/22 12:00:04 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/07/26 14:26:31 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int	main(int ac, char **av)
 	start_philo(av, &philo, &infos);
 }
 
-//se for mais de 200 philos não roda, 0 não roda
+//se for mais de 200 philos não roda, philos > 0 não roda
 //tempo abaixo de 60 não roda
 //overflow de int, tambén não roda e nem negativo
 //estudar o codeVault

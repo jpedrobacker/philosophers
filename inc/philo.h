@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/07/26 16:05:20 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:45:33 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,17 @@ typedef struct s_philo
 	int				l_fork;
 	int				has_eaten;
 	int				has_died;
-	pthread_t		thread;
+	u_int64_t		start_time;
+	pthread_t		philo_thrds;
 	t_infos			*infos;
 	t_mutex			*mutex;
 	struct s_philo	*next;
 }	t_philo;
 
 /*-- Philo funcs --*/
-t_philo	*populate_philos(char **av, t_infos *infos, t_mutex *mutex);
-void	start_philo(char **av, t_philo *philo, t_infos *infos);
+t_philo		*populate_philos(char **av, t_infos *infos, t_mutex *mutex);
+void		start_philo(char **av, t_philo *philo, t_infos *infos);
+uint64_t	start_time(void);
 
 /*-- Common lib funcs --*/
 size_t	ft_strlen(char const *str);

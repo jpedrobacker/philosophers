@@ -50,7 +50,7 @@ void *print_hello(void *arg)
     int i;
 
     i = 0;
-    while (i < 100)
+    while (i < 10)
     {
         printf("Hello\n");
         i++;
@@ -64,7 +64,7 @@ void *print_world(void *arg)
     int i;
 
     i = 0;
-    while (i < 100)
+    while (i < 10)
     {
         printf("\t\tWorld\n");
         i++;
@@ -96,7 +96,7 @@ void example_1()
 
 int main()
 {
-    example_1();
+    example_3();
 
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:21 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/07/22 11:42:48 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/01 13:08:10 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,4 @@ void	print_elems(t_philo *philos)
 		printf("ola: %d\n", philos->infos->philo_nums);
 		philos = philos->next;
 	}
-
 }

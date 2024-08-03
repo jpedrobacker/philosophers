@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/01 14:35:13 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:28:54 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_infos
 	int	philo_die;
 	int	philo_eat;
 	int	philo_sleep;
-	int	philo_must_eat;
+	int	philo_nb_meals;
 	//color or name;
 }	t_infos;
 
@@ -41,6 +41,8 @@ typedef struct s_mutex
 	pthread_mutex_t	mutex_stop;
 	pthread_mutex_t	mutex_eaten;
 	pthread_mutex_t	mutex_print;
+	pthread_mutex_t	*left_f;
+	pthread_mutex_t	*right_f;
 	int				eaten;
 	int				stop;
 }	t_mutex;
@@ -48,16 +50,25 @@ typedef struct s_mutex
 typedef struct s_philo
 {
 	int				philo_num;
-	int				r_fork;
-	int				l_fork;
 	int				has_eaten;
 	int				has_died;
 	u_int64_t		start_time;
-	pthread_t		philo_thrds;
+	pthread_t		*philo_thrds;
+	pthread_t		monit_check_alive;
+	pthread_t		monit_check_eat;
 	t_infos			*infos;
 	t_mutex			*mutex;
 	struct s_philo	*next;
 }	t_philo;
+
+typedef enum e_state
+{
+	DEAD = 0,
+	ALIVE = 1,
+	SLEEP = 2,
+	THINK = 3,
+	EAT = 4
+}	t_state;
 
 /*-- Philo funcs --*/
 t_philo		*populate_philos(char **av, t_infos *infos, t_mutex *mutex);

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:03:38 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/07/26 14:26:31 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:30:14 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,15 @@ int	check_time_sleep(char *av, t_infos *infos)
 	return (1);
 }
 
-int	check_must_eat(char *av, t_infos *infos)
+int	check_nb_meals(char *av, t_infos *infos)
 {
-	int	must_eat;
+	int	nb_meals;
 
-	must_eat = atol(av);
-	if (must_eat < 1 || must_eat > MAX_INT)
-		return (printf("Invalid must eat!\n"), 0);
+	nb_meals = atol(av);
+	if (nb_meals < 1 || nb_meals > MAX_INT)
+		return (printf("Invalid number of meals!\n"), 0);
 	else
-		infos->philo_die = must_eat;
+		infos->philo_nb_meals = nb_meals;
 	return (1);
 }
 
@@ -113,7 +113,7 @@ int	check_infos(char **av, t_infos *infos)
 		return (0);
 	if (av[5])
 	{
-		if (!check_must_eat(av[5], infos))
+		if (!check_nb_meals(av[5], infos))
 			return (0);
 	}
 	return (1);

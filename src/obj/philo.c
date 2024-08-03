@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/07/29 11:51:42 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:30:26 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ t_philo	*populate_philos(char **av, t_infos *infos, t_mutex *mutex)
 	{
 		aux = malloc(sizeof(t_philo));
 		aux->philo_num = i;
-		aux->r_fork = 0;
-		aux->l_fork = 0;
 		aux->has_eaten = 0;
 		aux->has_died = 0;
 		aux->infos = infos;

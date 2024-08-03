@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 11:10:01 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/01 14:34:01 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:41:42 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*routine(void *philo_pointer)
 	philo = (t_philo *) philo_pointer;
 	update_meal_time(philo);
 	if (philo->philo_num % 2 == 0)
-		philo_usleep(philo->infos->philo_must_eat - 10);
+		philo_usleep(philo->infos->philo_nb_meals - 10);
 	while (/*while philo isn't dead func*/1)
 	{
 		if (/*eat func*/0)
@@ -63,13 +63,13 @@ int	start_threads(t_philo *philo)
 	philo->start_time = start_time();
 	while (++i < philo->infos->philo_nums)
 	{
-		if (pthread_create(&philo->philo_thrds, NULL, &routine, philo))
+		if (pthread_create(philo->philo_thrds, NULL, &routine, philo))
 			return (1);
 		philo = philo->next;
 	}
-	if (pthread_create(NULL/*monit all alive*/, NULL, /*check_all_live_routine*/NULL, philo))
+	if (pthread_create(&philo->monit_check_alive, NULL, /*check_all_live_routine*/NULL, philo))
 		return (1);
-	if (nb_meals_option(philo) == 1 && pthread_create(/*monit if all full*/NULL, NULL, NULL/*&all_full_routine*/, philo))
+	if (nb_meals_option(philo) == true && pthread_create(&philo->monit_check_eat, NULL, NULL/*&all_full_routine*/, philo))
 		return (1);
 	return (0);
 }

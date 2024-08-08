@@ -6,44 +6,43 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/02 21:30:26 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/05 12:46:19 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	start_mutex(t_mutex *mutex, t_infos *infos)
+void	*routine(void *philo_pointer)
 {
-	mutex->eaten = infos->philo_nums;
-	pthread_mutex_init(&mutex->mutex_stop, NULL);
-	pthread_mutex_init(&mutex->mutex_print, NULL);
-	pthread_mutex_init(&mutex->mutex_eaten, NULL);
+	(void) philo_pointer;
 }
 
-t_philo	*populate_philos(char **av, t_infos *infos, t_mutex *mutex)
+void	one_philo_routine(t_table *table)
 {
-	t_philo		*head;
-	t_philo		*aux;
-	t_philo		*last;
-	int			i;
+	print_think(table->philo);
+	philo_usleep(table->philo_die);
+	print_death(table->philo);
+}
 
-	head = NULL;
+void	start_philo(t_table *table)
+{
+	int	i;
+
+	table->start_time = start_time();
+	if (table->philo_nb == 1)
+		return (one_philo_routine(table));
 	i = 0;
-	while(atol(av[1]) >= ++i)
+	while (i < table->philo_nb)
 	{
-		aux = malloc(sizeof(t_philo));
-		aux->philo_num = i;
-		aux->has_eaten = 0;
-		aux->has_died = 0;
-		aux->infos = infos;
-		aux->mutex = mutex;
-		aux->next = NULL;
-		if (head == NULL)
-			head = aux;
-		else
-			last->next = aux;
-		last = aux;
+		pthread_create(&table->thrds[i], NULL, &routine, &table->philo);
+		i++;
+		table->philo = table->philo->next;
 	}
-	aux->next = head;
-	return (head);
+	table->start_time = start_time();
+	i = 0;
+	while (i < table->philo_nb)
+	{
+		pthread_join(table->thrds[i], NULL);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/02 21:28:54 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:20:20 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,31 @@
 # define MAX_INT 2147483647
 # define MIN_INT -2147483648
 
-typedef struct s_infos
-{
-	int	philo_nums;
-	int	philo_die;
-	int	philo_eat;
-	int	philo_sleep;
-	int	philo_nb_meals;
-	//color or name;
-}	t_infos;
-
-typedef struct s_mutex
-{
-	pthread_mutex_t	mutex_stop;
-	pthread_mutex_t	mutex_eaten;
-	pthread_mutex_t	mutex_print;
-	pthread_mutex_t	*left_f;
-	pthread_mutex_t	*right_f;
-	int				eaten;
-	int				stop;
-}	t_mutex;
-
 typedef struct s_philo
 {
-	int				philo_num;
-	int				has_eaten;
-	int				has_died;
-	u_int64_t		start_time;
-	pthread_t		*philo_thrds;
-	pthread_t		monit_check_alive;
-	pthread_t		monit_check_eat;
-	t_infos			*infos;
-	t_mutex			*mutex;
+	int				id;
+	int				eat_count;
+	u_int64_t		last_meal;
+	pthread_t		monit;
+	pthread_mutex_t	*lfork;
+	pthread_mutex_t	*rfork;
+	struct s_table	*table;
 	struct s_philo	*next;
 }	t_philo;
+
+typedef struct s_table
+{
+	int				philo_nb;
+	int				philo_die;
+	int				philo_eat;
+	int				philo_sleep;
+	int				philo_nb_meals;
+	u_int64_t		start_time;
+	bool			has_dead;
+	t_philo			*philo;
+	pthread_mutex_t	*forks;
+	pthread_t		*thrds;
+} t_table;
 
 typedef enum e_state
 {
@@ -71,22 +62,27 @@ typedef enum e_state
 }	t_state;
 
 /*-- Philo funcs --*/
-t_philo		*populate_philos(char **av, t_infos *infos, t_mutex *mutex);
-void		start_philo(char **av, t_philo *philo, t_infos *infos);
-void		start_mutex(t_mutex *mutex, t_infos *infos);
+t_philo		*populate_philos(char **av, t_table *table);
+void		check_infos(char **av, t_table *table);
+void		start_forks(t_table *table);
+void		start_philo(t_table *table);
 
 /*-- Time funcs --*/
 u_int64_t	start_time(void);
 void		philo_usleep(u_int64_t time_to_sleep);
 
+/*-- Print funcs --*/
+void		print_think(t_philo *philo);
+void		print_death(t_philo *philo);
+
 /*-- Common lib funcs --*/
-size_t	ft_strlen(char const *str);
-long	ft_atol(const char *str);
+size_t		ft_strlen(char const *str);
+long		ft_atol(const char *str);
 
 /*-- Utils funcs --*/
-void	print_elems(t_philo *philos);
+
 
 /*-- Free funcs --*/
-void	to_free(t_philo *philo);
+void		to_free(t_table *table);
 
 #endif

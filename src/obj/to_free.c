@@ -6,13 +6,13 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:57:14 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/01 13:58:07 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/05 13:19:52 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	to_free(t_philo *philo)
+void	to_free(t_table *table)
 {
-
+	(void) table;
 }

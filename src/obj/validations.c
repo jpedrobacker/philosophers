@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/05 12:25:28 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/12 10:48:11 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	start_forks(t_table *table)
 
 void	check_infos(char **av, t_table *table)
 {
-	if (ft_atol(av[1]) < 200)
+	if (ft_atol(av[1]) < 200 && ft_atol(av[1]) > 0)
 		table->philo_nb = ft_atol(av[1]);
 	else
 		printf("Wrong number of philos!\n");

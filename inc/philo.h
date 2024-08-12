@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/05 13:20:20 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/12 10:58:42 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ typedef struct s_table
 	int				philo_eat;
 	int				philo_sleep;
 	int				philo_nb_meals;
-	u_int64_t		start_time;
 	bool			has_dead;
+	u_int64_t		start_time;
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
 	pthread_t		*thrds;
@@ -74,6 +74,9 @@ void		philo_usleep(u_int64_t time_to_sleep);
 /*-- Print funcs --*/
 void		print_think(t_philo *philo);
 void		print_death(t_philo *philo);
+void		print_sleep(t_philo *philo);
+void		print_eating(t_philo *philo);
+void		print_forks(t_philo *philo);
 
 /*-- Common lib funcs --*/
 size_t		ft_strlen(char const *str);

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/19 12:20:19 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:16:45 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,46 +51,26 @@ void	return_fork(t_philo *philo)
 	to_sleep(philo);
 }
 
-/*void	*check_deaths(void *p_table)
-{
-	t_table	*table;
-
-	table = (t_table *)p_table;
-	while (1)
-	{
-		if (check_eat(table))
-			break;
-		if (start_time() - table->philo->last_meal > table->philo_die && table->philo->last_meal != -1 && (table->philo->eat_count < table->philo_nb_meals || table->philo_nb_meals == -1))
-		{
-			print_death(&table->philo);
-			table->has_dead = true;
-			exit(EXIT_FAILURE);
-		}
-		table->philo = table->philo->next;
-	}
-
-}*/
-
 void	*routine(void *p_philo)
 {
 	t_philo *philo;
 
 	philo = (t_philo *) p_philo;
-	philo->last_meal = start_time();
-//	pthread_create(&philo->monit, NULL, &check_deaths, philo->table);
-//	pthread_detach(philo->monit);
+	printf("----%d----\n", philo->id);
 	if (philo->id % 2 == 0)
-		philo_usleep(1);
-	while (!philo->table->has_dead /*&& !check_eat(philo->table)*/)
+		usleep(100);
+	/*philo->last_meal = start_time();
+	pthread_create(&philo->monit, NULL, &check_deaths, philo->table);
+	pthread_detach(philo->monit);
+	while (!philo->table->has_dead && !check_eat(philo->table))
 	{
 		print_think(philo);
-		printf("teste1\n");
 		//take_fork(philo);
 		print_eating(philo);
 		philo->last_meal = start_time();
 		philo_usleep(philo->table->philo_eat - 5);
 		//return_fork(philo);
-	}
+	}*/
 	return (NULL);
 }
 
@@ -103,23 +83,22 @@ void	one_philo_routine(t_table *table)
 
 void	start_philo(t_table *table)
 {
-	int	i;
+	int		i;
+	t_philo	*aux_philos;
 
+	aux_philos = table->philo;
 	table->start_time = start_time();
 	if (table->philo_nb == 1)
 		return (one_philo_routine(table));
-	i = 0;
-	while (i < table->philo_nb)
+	i = -1;
+	while (++i < table->philo_nb)
 	{
-		pthread_create(&table->thrds[i], NULL, &routine, &table->philo);
-		i++;
-		table->philo = table->philo->next;
+		pthread_create(&table->thrds[i], NULL, &routine, &aux_philos);
+		printf("//%d//\n", aux_philos->id);
+		aux_philos = aux_philos->next;
 	}
 	table->start_time = start_time();
-	i = 0;
-	while (i < table->philo_nb)
-	{
+	i = -1;
+	while (++i < table->philo_nb)
 		pthread_join(table->thrds[i], NULL);
-		i++;
-	}
 }

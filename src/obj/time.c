@@ -6,13 +6,13 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 11:01:53 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/05 12:37:11 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:19:09 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-u_int64_t	start_time(void)
+long	start_time(void)
 {
 	struct timeval	time;
 

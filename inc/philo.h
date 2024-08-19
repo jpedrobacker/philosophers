@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/19 11:57:51 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:19:14 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void		start_forks(t_table *table);
 void		start_philo(t_table *table);
 
 /*-- Time funcs --*/
-u_int64_t	start_time(void);
+long	start_time(void);
 void		philo_usleep(u_int64_t time_to_sleep);
 
 /*-- Print funcs --*/

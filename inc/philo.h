@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/12 10:58:42 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/19 11:57:51 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ typedef struct s_table
 	int				philo_sleep;
 	int				philo_nb_meals;
 	bool			has_dead;
+	pthread_t		*thrds;
 	u_int64_t		start_time;
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
-	pthread_t		*thrds;
 } t_table;
 
 typedef enum e_state

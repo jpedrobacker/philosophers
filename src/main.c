@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:03:38 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/19 11:43:16 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:20:53 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	main(int ac, char **av)
 	check_infos(av, &table);
 	start_forks(&table);
 	start_philo(&table);
-	//to_free(&table);
+	end_philo(&table);
 }
 
 //se for mais de 200 philos não roda, philos > 0 não roda

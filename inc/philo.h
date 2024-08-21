@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/19 14:19:14 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:20:19 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_philo
 {
 	int				id;
 	int				eat_count;
-	u_int64_t		last_meal;
+	long			last_meal;
 	pthread_t		monit;
 	pthread_mutex_t	*lfork;
 	pthread_mutex_t	*rfork;
@@ -46,8 +46,8 @@ typedef struct s_table
 	int				philo_sleep;
 	int				philo_nb_meals;
 	bool			has_dead;
+	long			start_time;
 	pthread_t		*thrds;
-	u_int64_t		start_time;
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
 } t_table;
@@ -66,10 +66,11 @@ t_philo		*populate_philos(char **av, t_table *table);
 void		check_infos(char **av, t_table *table);
 void		start_forks(t_table *table);
 void		start_philo(t_table *table);
+void		end_philo(t_table *table);
 
 /*-- Time funcs --*/
-long	start_time(void);
-void		philo_usleep(u_int64_t time_to_sleep);
+long		get_cur_time(void);
+void		philo_usleep(int time_to_sleep);
 
 /*-- Print funcs --*/
 void		print_think(t_philo *philo);
@@ -83,7 +84,9 @@ size_t		ft_strlen(char const *str);
 long		ft_atol(const char *str);
 
 /*-- Utils funcs --*/
-
+void		to_sleep(t_philo *philo);
+void		take_fork(t_philo *philo);
+void		return_fork(t_philo *philo);
 
 /*-- Free funcs --*/
 void		to_free(t_table *table);

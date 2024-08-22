@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/21 13:50:00 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/22 12:02:38 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_philo	*populate_philos(char **av, t_table *table)
 		last = aux;
 		i++;
 	}
-	//aux->next = head;
+	aux->next = head;
 	return (head);
 }
 

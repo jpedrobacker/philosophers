@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/22 12:02:38 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/27 12:14:49 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_philo	*populate_philos(char **av, t_table *table)
 	int			i;
 
 	head = NULL;
-	i = 0;
-	while(atol(av[1]) >= i)
+	i = -1;
+	while(atol(av[1]) >= ++i)
 	{
 		aux = malloc(sizeof(t_philo));
 		aux->id = i + 1;
@@ -36,7 +36,6 @@ t_philo	*populate_philos(char **av, t_table *table)
 		else
 			last->next = aux;
 		last = aux;
-		i++;
 	}
 	aux->next = head;
 	return (head);

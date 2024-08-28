@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/28 11:04:08 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:54:23 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,22 @@ bool	check_eat(t_table *table)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (table->philo_nb_meals == -1)
 		return (false);
-	while (++i < table->philo_nb)
+	while (i < table->philo_nb)
 	{
 		if (table->philo->eat_count < table->philo_nb_meals)
 			return (false);
 		table->philo = table->philo->next;
+		i++;
 	}
 	return (true);
 }
 
 void	*check_death(void *table_pointer)
 {
-	t_table	*table;
-
-	table = (t_table *)table_pointer;
-	while (1)
-	{
-		if (check_eat(table))
-			break;
-		if (get_cur_time() - table->philo->last_meal > table->philo_die && table->philo->last_meal != -1
-		&& (table->philo->eat_count < table->philo_nb_meals || table->philo_nb_meals == -1))
-		{
-			print_death(table->philo);
-			table->has_dead = true;
-			exit(EXIT_FAILURE);
-		}
-		table->philo = table->philo->next;
-	}
-	return (0);
+	return (NULL);
 }
 
 void	*routine(void *p_philo)
@@ -68,7 +53,7 @@ void	*routine(void *p_philo)
 		philo_usleep(philo->table->philo_eat);
 		return_fork(philo);
 	}
-	return (0);
+	return (NULL);
 }
 
 void	one_philo_routine(t_table *table)

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/21 14:20:19 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:32:41 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	int				philo_nb;
-	int				philo_die;
-	int				philo_eat;
-	int				philo_sleep;
-	int				philo_nb_meals;
+	int				philo_nb; //av[1]
+	int				philo_die; //av[2]
+	int				philo_eat; //av[3]
+	int				philo_sleep; //av[4]
+	int				philo_nb_meals; //av[5]
 	bool			has_dead;
 	long			start_time;
 	pthread_t		*thrds;

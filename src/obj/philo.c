@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/27 12:40:40 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:04:08 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	*check_death(void *table_pointer)
 		}
 		table->philo = table->philo->next;
 	}
-	return (NULL);
+	return (0);
 }
 
 void	*routine(void *p_philo)
@@ -55,7 +55,7 @@ void	*routine(void *p_philo)
 
 	philo = (t_philo *) p_philo;
 	philo->last_meal = get_cur_time();
-	pthread_create(&philo->monit, NULL, &check_death, philo->table);
+	pthread_create(&philo->monit, NULL, &check_death, (void *)philo->table);
 	pthread_detach(philo->monit);
 	if (philo->id % 2 == 0)
 		philo_usleep(1);
@@ -68,7 +68,7 @@ void	*routine(void *p_philo)
 		philo_usleep(philo->table->philo_eat);
 		return_fork(philo);
 	}
-	return (NULL);
+	return (0);
 }
 
 void	one_philo_routine(t_table *table)

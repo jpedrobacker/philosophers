@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/27 12:14:49 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/28 10:49:06 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,9 @@ void	check_infos(char **av, t_table *table)
 	table->thrds = malloc(sizeof(pthread_t) * table->philo_nb);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->philo_nb);
 	table->philo = populate_philos(av, table);
+	/*while (table->philo)
+	{
+		printf("philo: %d\n", table->philo->id);
+		table->philo = table->philo->next;
+	}*/
 }

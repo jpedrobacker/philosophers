@@ -6,45 +6,37 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/28 18:54:23 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:26:23 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-bool	check_eat(t_table *table)
+bool	check_eat(t_philo *philo)
 {
-	int	i;
-
-	i = 0;
-	if (table->philo_nb_meals == -1)
+	if (philo->table->philo_nb_meals == -1)
 		return (false);
-	while (i < table->philo_nb)
-	{
-		if (table->philo->eat_count < table->philo_nb_meals)
-			return (false);
-		table->philo = table->philo->next;
-		i++;
-	}
+	if (philo->table->philo_nb_meals > philo->eat_count)
+		return (false);
 	return (true);
 }
 
-void	*check_death(void *table_pointer)
+/*void	*check_death(void *table_pointer)
 {
 	return (NULL);
-}
+}*/
 
 void	*routine(void *p_philo)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *) p_philo;
 	philo->last_meal = get_cur_time();
-	pthread_create(&philo->monit, NULL, &check_death, (void *)philo->table);
-	pthread_detach(philo->monit);
+	/*pthread_create(&philo->monit, NULL, &check_death, (void *)philo->table);
+	pthread_detach(philo->monit);*/
 	if (philo->id % 2 == 0)
 		philo_usleep(1);
-	while (!philo->table->has_dead && !check_eat(philo->table))
+	while (!philo->table->has_dead)
 	{
 		print_think(philo);
 		take_fork(philo);
@@ -52,6 +44,9 @@ void	*routine(void *p_philo)
 		philo->last_meal = get_cur_time();
 		philo_usleep(philo->table->philo_eat);
 		return_fork(philo);
+		printf("--Philo: %d -> eated: %d--\n", philo->id, philo->eat_count);
+		if (check_eat(philo) != false)
+			break;
 	}
 	return (NULL);
 }
@@ -86,12 +81,9 @@ void	end_philo(t_table *table)
 {
 	int	i;
 
-	i = 0;
-	while (i < table->philo_nb)
-	{
+	i = -1;
+	while (++i < table->philo_nb)
 		pthread_mutex_destroy(&table->forks[i]);
-		i++;
-	}
 	if (table->forks)
 		free(table->forks);
 	if (table->thrds)

@@ -21,10 +21,23 @@ bool	check_eat(t_philo *philo)
 	return (true);
 }
 
-/*void	*check_death(void *table_pointer)
+void	*check_death(void *philo_pointer)
 {
+	t_philo	*aux;
+
+	aux = (t_philo *)philo_pointer;
+	while (1)
+	{
+		if (aux->is_dead == true)
+		{
+			aux->table->stop_dinner = true;
+			print_death(aux);
+			exit(EXIT_FAILURE);
+		}
+		aux = aux->next;
+	}
 	return (NULL);
-}*/
+}
 
 void	*routine(void *p_philo)
 {
@@ -32,11 +45,9 @@ void	*routine(void *p_philo)
 
 	philo = (t_philo *) p_philo;
 	philo->last_meal = get_cur_time();
-	/*pthread_create(&philo->monit, NULL, &check_death, (void *)philo->table);
-	pthread_detach(philo->monit);*/
 	if (philo->id % 2 == 0)
 		philo_usleep(1);
-	while (!philo->table->has_dead)
+	while (1)
 	{
 		print_think(philo);
 		take_fork(philo);
@@ -44,7 +55,9 @@ void	*routine(void *p_philo)
 		philo->last_meal = get_cur_time();
 		philo_usleep(philo->table->philo_eat);
 		return_fork(philo);
-		printf("--Philo: %d -> eated: %d--\n", philo->id, philo->eat_count);
+		//printf("--Philo: %d -> eated: %d--\n", philo->id, philo->eat_count);
+		if (get_cur_time() - philo->last_meal <= philo->table->philo_die)
+			philo->is_dead = true;
 		if (check_eat(philo) != false)
 			break;
 	}
@@ -63,6 +76,8 @@ void	start_philo(t_table *table)
 	int	i;
 
 	table->start_time = get_cur_time();
+	pthread_create(&table->philo->monit, NULL, &check_death, (void *)table->philo);
+	pthread_detach(table->philo->monit);
 	if (table->philo_nb == 1)
 		return (one_philo_routine(table));
 	i = -1;
@@ -74,7 +89,7 @@ void	start_philo(t_table *table)
 	table->start_time = get_cur_time();
 	i = -1;
 	while (++i < table->philo_nb)
-		pthread_join(table->thrds[i], NULL);
+			pthread_join(table->thrds[i], NULL);
 }
 
 void	end_philo(t_table *table)

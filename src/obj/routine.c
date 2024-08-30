@@ -14,6 +14,8 @@
 
 void	print_think(t_philo *philo)
 {
+	if (philo->table->stop_dinner == true)
+		return ;
 	printf("%ld %d is thinking\n", get_cur_time() - philo->table->start_time, philo->id);
 }
 
@@ -24,15 +26,21 @@ void	print_death(t_philo *philo)
 
 void	print_sleep(t_philo *philo)
 {
+	if (philo->table->stop_dinner == true)
+		return ;
 	printf("%ld %d is sleeping\n", get_cur_time() - philo->table->start_time, philo->id);
 }
 
 void	print_eating(t_philo *philo)
 {
+	if (philo->table->stop_dinner == true)
+		return ;
 	printf("%ld %d is eating\n", get_cur_time() - philo->table->start_time, philo->id);
 }
 
 void	print_forks(t_philo *philo)
 {
+	if (philo->table->stop_dinner == true)
+		return ;
 	printf("%ld %d has taken a fork\n", get_cur_time() - philo->table->start_time, philo->id);
 }

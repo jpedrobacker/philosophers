@@ -28,6 +28,8 @@ t_philo	*populate_philos(char **av, t_table *table)
 		aux->table = table;
 		aux->eat_count = 0;
 		aux->last_meal = -1;
+		aux->time_to_die = 0;
+		aux->is_dead = false;
 		aux->lfork = &table->forks[i];
 		aux->rfork = &table->forks[(i + 1) % table->philo_nb];
 		aux->next = NULL;
@@ -62,7 +64,7 @@ void	check_infos(char **av, t_table *table)
 	table->philo_die = ft_atol(av[2]);
 	table->philo_eat = ft_atol(av[3]);
 	table->philo_sleep = ft_atol((av[4]));
-	table->has_dead = false;
+	table->stop_dinner = false;
 	if (av[5])
 		table->philo_nb_meals = ft_atol((av[5]));
 	else

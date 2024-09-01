@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/28 18:32:41 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:48:04 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ typedef struct s_philo
 {
 	int				id;
 	int				eat_count;
-	long			last_meal;
-	long			time_to_die;
-	bool			is_dead;
-	pthread_t		monit;
+	int				is_dead;
+	int				stop_eat;
+	long			start;
+	long			death;
 	pthread_mutex_t	*lfork;
 	pthread_mutex_t	*rfork;
 	struct s_table	*table;
@@ -47,10 +47,10 @@ typedef struct s_table
 	int				philo_eat; //av[3]
 	int				philo_sleep; //av[4]
 	int				philo_nb_meals; //av[5]
+	int				stop_dinner;
 	long			start_time;
-	bool			stop_dinner;
-	pthread_t		*thrds;
 	t_philo			*philo;
+	pthread_t		*thrds;
 	pthread_mutex_t	*forks;
 } t_table;
 
@@ -68,7 +68,6 @@ t_philo		*populate_philos(char **av, t_table *table);
 void		check_infos(char **av, t_table *table);
 void		start_forks(t_table *table);
 void		start_philo(t_table *table);
-void		end_philo(t_table *table);
 
 /*-- Time funcs --*/
 long		get_cur_time(void);
@@ -91,6 +90,7 @@ void		take_fork(t_philo *philo);
 void		return_fork(t_philo *philo);
 
 /*-- Free funcs --*/
+void		end_philo(t_table *table);
 void		to_free(t_table *table);
 
 #endif

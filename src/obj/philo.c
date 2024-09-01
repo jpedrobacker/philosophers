@@ -6,35 +6,30 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/29 12:26:23 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:49:24 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-bool	check_eat(t_philo *philo)
-{
-	if (philo->table->philo_nb_meals == -1)
-		return (false);
-	if (philo->table->philo_nb_meals > philo->eat_count)
-		return (false);
-	return (true);
-}
-
 void	*check_death(void *philo_pointer)
 {
-	t_philo	*aux;
+	t_philo	*aux_philo;
+	t_philo	*monitor;
 
-	aux = (t_philo *)philo_pointer;
+	aux_philo = (t_philo *)philo_pointer;
+	monitor = (t_philo *)philo_pointer;
 	while (1)
 	{
-		if (get_cur_time() - aux->last_meal > aux->table->philo_die)
+		if (monitor->is_dead)
 		{
-			print_death(aux);
-			aux->table->stop_dinner = true;
-			exit(EXIT_FAILURE);
+			print_death(aux_philo);
+			break ;
 		}
-		aux = aux->next;
+		if (monitor->eat_count == aux_philo->table->philo_nb_meals)
+			aux_philo->stop_eat = 1;
+		aux_philo = aux_philo->next;
+		monitor = aux_philo;
 	}
 	return (NULL);
 }
@@ -44,9 +39,8 @@ void	*routine(void *p_philo)
 	t_philo	*philo;
 
 	philo = (t_philo *) p_philo;
-	philo->last_meal = get_cur_time();
-	pthread_create(&philo->monit, NULL, &check_death, (void *)philo);
-	pthread_detach(philo->monit);
+	philo->start = get_cur_time();
+	philo->death = philo->start + philo->table->philo_die;
 	if (philo->id % 2 == 0)
 		philo_usleep(1);
 	while (1)
@@ -54,11 +48,10 @@ void	*routine(void *p_philo)
 		print_think(philo);
 		take_fork(philo);
 		print_eating(philo);
-		philo->last_meal = get_cur_time();
 		philo_usleep(philo->table->philo_eat);
 		return_fork(philo);
-		//printf("--Philo: %d -> eated: %d--\n", philo->id, philo->eat_count);
-		if (check_eat(philo) != false)
+		printf("--Philo: %d -> eated: %d--\n", philo->id, philo->eat_count);
+		if (philo->stop_eat == 1)
 			break;
 	}
 	return (NULL);
@@ -73,12 +66,15 @@ void	one_philo_routine(t_table *table)
 
 void	start_philo(t_table *table)
 {
-	int	i;
+	int			i;
+	pthread_t	monit;
 
 	table->start_time = get_cur_time();
 	if (table->philo_nb == 1)
 		return (one_philo_routine(table));
 	i = -1;
+	pthread_create(&monit, NULL, &check_death, (void *)table->philo);
+	pthread_detach(monit);
 	while (++i < table->philo_nb)
 	{
 		pthread_create(&table->thrds[i], NULL, &routine, (void *)table->philo);
@@ -88,19 +84,4 @@ void	start_philo(t_table *table)
 	i = -1;
 	while (++i < table->philo_nb)
 			pthread_join(table->thrds[i], NULL);
-}
-
-void	end_philo(t_table *table)
-{
-	int	i;
-
-	i = -1;
-	while (++i < table->philo_nb)
-		pthread_mutex_destroy(&table->forks[i]);
-	if (table->forks)
-		free(table->forks);
-	if (table->thrds)
-		free(table->thrds);
-	if (table->philo)
-		free(table->philo);
 }

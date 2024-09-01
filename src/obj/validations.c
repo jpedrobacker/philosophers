@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/28 10:49:06 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/01 12:46:04 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ t_philo	*populate_philos(char **av, t_table *table)
 		aux->id = i + 1;
 		aux->table = table;
 		aux->eat_count = 0;
-		aux->last_meal = -1;
-		aux->time_to_die = 0;
-		aux->is_dead = false;
+		aux->start = 0;
+		aux->death = 0;
+		aux->is_dead = 0;
 		aux->lfork = &table->forks[i];
 		aux->rfork = &table->forks[(i + 1) % table->philo_nb];
 		aux->next = NULL;

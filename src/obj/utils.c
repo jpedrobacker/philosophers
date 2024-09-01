@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:21 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/08/28 18:17:29 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/01 17:14:27 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@ void	take_fork(t_philo *philo)
 void	to_sleep(t_philo *philo)
 {
 	print_sleep(philo);
-	philo_usleep(philo->table->philo_sleep);
-	philo->eat_count++;
+	philo_usleep(philo, philo->table->philo_sleep);
 }
 
 void	return_fork(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
-	to_sleep(philo);
 }

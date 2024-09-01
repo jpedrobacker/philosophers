@@ -34,3 +34,6 @@ fclean: clean
 		clear
 
 re: fclean all
+
+debug:	CFLAGS += -ggdb3
+debug:	fclean ${NAME}

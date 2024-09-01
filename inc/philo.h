@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/01 17:16:02 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/01 18:48:32 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,6 @@ typedef struct s_table
 	pthread_mutex_t	*forks;
 } t_table;
 
-typedef enum e_state
-{
-	DEAD = 0,
-	ALIVE = 1,
-	SLEEP = 2,
-	THINK = 3,
-	EAT = 4
-}	t_state;
-
 /*-- Philo funcs --*/
 t_philo		*populate_philos(char **av, t_table *table);
 void		check_infos(char **av, t_table *table);
@@ -73,6 +64,7 @@ int			is_dead(t_philo *philo);
 /*-- Time funcs --*/
 long		get_cur_time(void);
 int			philo_usleep(t_philo *philo, int time_to_sleep);
+void		one_philo_usleep(int time);
 
 /*-- Print funcs --*/
 void		print_think(t_philo *philo);

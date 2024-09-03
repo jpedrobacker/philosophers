@@ -32,12 +32,13 @@ void	*check_death(void *philo_pointer)
 		pthread_mutex_lock(&philo->table->forks[philo->id - 1]);
 		if (get_cur_time() >= philo->death && !philo->is_dead)
 		{
-			philo->is_dead = 1;
 			philo->table->stop_dinner = 1;
 			print_death(philo);
 			pthread_mutex_unlock(&philo->table->forks[philo->id - 1]);
 			break ;
 		}
+		if (philo->eat_count >= philo->table->philo_nb_meals && philo->table->philo_nb_meals != -1)
+			philo->stop_eat = 1;
 		pthread_mutex_unlock(&philo->table->forks[philo->id - 1]);
 		usleep(500);
 	}
@@ -74,7 +75,7 @@ void	*routine(void *p_philo)
 		if (!eat_pls(philo))
 			break ;
 		to_sleep(philo);
-		if (philo->stop_eat || philo->table->stop_dinner)
+		if (philo->stop_eat || philo->table->stop_dinner == 1)
 			break ;
 	}
 	return (NULL);

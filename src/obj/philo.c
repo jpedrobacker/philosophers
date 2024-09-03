@@ -12,16 +12,6 @@
 
 #include "../inc/philo.h"
 
-int	is_dead(t_philo *philo)
-{
-	if (philo->death <= get_cur_time())
-	{
-		philo->is_dead = 1;
-		return (1);
-	}
-	return (0);
-}
-
 void	*check_death(void *philo_pointer)
 {
 	t_philo	*philo;
@@ -43,21 +33,6 @@ void	*check_death(void *philo_pointer)
 		usleep(500);
 	}
 	return (NULL);
-}
-
-int	eat_pls(t_philo *philo)
-{
-	take_fork(philo);
-	print_eating(philo);
-	philo->death = get_cur_time() + philo->table->philo_die;
-	philo->eat_count++;
-	if (!philo_usleep(philo, philo->table->philo_eat))
-	{
-		return_fork(philo);
-		return (0);
-	}
-	return_fork(philo);
-	return (1);
 }
 
 void	*routine(void *p_philo)

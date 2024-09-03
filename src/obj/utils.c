@@ -31,3 +31,28 @@ void	return_fork(t_philo *philo)
 	pthread_mutex_unlock(philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
 }
+
+int	eat_pls(t_philo *philo)
+{
+	take_fork(philo);
+	print_eating(philo);
+	philo->death = get_cur_time() + philo->table->philo_die;
+	philo->eat_count++;
+	if (!philo_usleep(philo, philo->table->philo_eat))
+	{
+		return_fork(philo);
+		return (0);
+	}
+	return_fork(philo);
+	return (1);
+}
+
+int	is_dead(t_philo *philo)
+{
+	if (philo->death <= get_cur_time())
+	{
+		philo->is_dead = 1;
+		return (1);
+	}
+	return (0);
+}

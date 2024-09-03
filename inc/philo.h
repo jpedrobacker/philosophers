@@ -13,13 +13,13 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <stdio.h>     // printf
-# include <stdlib.h>    // malloc, free
-# include <string.h>    // memset
-# include <unistd.h>    // usleep, write
-# include <sys/time.h>  // gettimeofday
-# include <pthread.h>   // pthread_create, pthread_detach, pthread_join, pthread_mutex_init, pthread_mutex_destroy, pthread_mutex_lock, pthread_mutex_unlock
-# include <sys/types.h> // u_int64_t
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <pthread.h>
+# include <sys/types.h>
 # include <stdbool.h>
 # include <stdint.h>
 

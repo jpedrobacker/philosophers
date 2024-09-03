@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/01 19:36:49 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/02 23:24:25 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,23 @@ int	is_dead(t_philo *philo)
 
 void	*check_death(void *philo_pointer)
 {
-	t_philo	*aux_philo;
+	t_philo	*philo;
 	t_philo	*monit;
 
-	aux_philo = (t_philo *)philo_pointer;
-	monit = aux_philo;
+	philo = (t_philo *)philo_pointer;
+	monit = philo;
 	while (1)
 	{
-		if (monit->is_dead == 1)
+		if (monit->is_dead)
 		{
-			print_death(aux_philo);
-			aux_philo->table->stop_dinner = 1;
+			print_death(philo);
+			philo->table->stop_dinner = 1;
 			break ;
 		}
-		if (aux_philo->eat_count >= aux_philo->table->philo_nb_meals && aux_philo->table->philo_nb_meals != -1)
-				aux_philo->stop_eat = 1;
-		aux_philo = aux_philo->next;
-		monit = aux_philo;
+		if (philo->eat_count >= philo->table->philo_nb_meals && philo->table->philo_nb_meals != -1)
+				philo->stop_eat = 1;
+		philo = philo->next;
+		monit = philo;
 	}
 	return (NULL);
 }
@@ -62,7 +62,7 @@ void	*routine(void *p_philo)
 	philo->start = get_cur_time();
 	philo->death = philo->start + philo->table->philo_die;
 	if (philo->id % 2 == 0)
-		usleep(100);
+		one_philo_usleep(1);
 	while (1)
 	{
 		print_think(philo);
@@ -88,20 +88,25 @@ void	start_philo(t_table *table)
 {
 	int			i;
 	pthread_t	monit;
+	t_philo		*philo;
 
 	table->start_time = get_cur_time();
+	philo = table->philo;
 	if (table->philo_nb == 1)
 		return (one_philo_routine(table));
-	i = -1;
-	pthread_create(&monit, NULL, &check_death, (void *)table->philo);
+	pthread_create(&monit, NULL, &check_death, (void *)philo);
 	pthread_detach(monit);
-	while (++i < table->philo_nb)
+	i = 0;
+	while (i < table->philo_nb)
 	{
-		pthread_create(&table->thrds[i], NULL, &routine, (void *)table->philo);
+		pthread_create(&table->thrds[i], NULL, &routine, (void *)philo);
 		table->philo = table->philo->next;
+		i++;
 	}
-	table->start_time = get_cur_time();
-	i = -1;
-	while (++i < table->philo_nb)
+	i = 0;
+	while (i < table->philo_nb)
+	{
 		pthread_join(table->thrds[i], NULL);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/01 12:46:04 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/02 23:22:51 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_philo	*populate_philos(char **av, t_table *table)
 
 	head = NULL;
 	i = -1;
-	while(atol(av[1]) >= ++i)
+	while(atol(av[1]) > ++i)
 	{
 		aux = malloc(sizeof(t_philo));
 		aux->id = i + 1;
@@ -57,8 +57,11 @@ void	start_forks(t_table *table)
 
 void	check_infos(char **av, t_table *table)
 {
-	if (ft_atol(av[1]) < 200 && ft_atol(av[1]) > 0)
-		table->philo_nb = ft_atol(av[1]);
+	int	i;
+
+	i = ft_atol(av[1]);
+	if (i < 200 && i > 0)
+		table->philo_nb = i;
 	else
 		printf("Wrong number of philos!\n");
 	table->philo_die = ft_atol(av[2]);

@@ -52,7 +52,7 @@ typedef struct s_table
 	t_philo			*philo;
 	pthread_t		*thrds;
 	pthread_mutex_t	*forks;
-} t_table;
+}	t_table;
 
 /*-- Philo funcs --*/
 t_philo		*populate_philos(char **av, t_table *table);

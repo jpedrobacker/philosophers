@@ -26,8 +26,3 @@ void	end_philo(t_table *table)
 	if (table->philo)
 		free(table->philo);
 }
-
-void	to_free(t_table *table)
-{
-	(void) table;
-}

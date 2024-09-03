@@ -25,22 +25,21 @@ int	is_dead(t_philo *philo)
 void	*check_death(void *philo_pointer)
 {
 	t_philo	*philo;
-	t_philo	*monit;
 
 	philo = (t_philo *)philo_pointer;
-	monit = philo;
 	while (1)
 	{
-		if (monit->is_dead)
+		pthread_mutex_lock(&philo->table->forks[philo->id - 1]);
+		if (get_cur_time() >= philo->death && !philo->is_dead)
 		{
-			print_death(philo);
+			philo->is_dead = 1;
 			philo->table->stop_dinner = 1;
+			print_death(philo);
+			pthread_mutex_unlock(&philo->table->forks[philo->id - 1]);
 			break ;
 		}
-		if (philo->eat_count >= philo->table->philo_nb_meals && philo->table->philo_nb_meals != -1)
-				philo->stop_eat = 1;
-		philo = philo->next;
-		monit = philo;
+		pthread_mutex_unlock(&philo->table->forks[philo->id - 1]);
+		usleep(500);
 	}
 	return (NULL);
 }
@@ -51,7 +50,13 @@ int	eat_pls(t_philo *philo)
 	print_eating(philo);
 	philo->death = get_cur_time() + philo->table->philo_die;
 	philo->eat_count++;
-	return (philo_usleep(philo, philo->table->philo_eat));
+	if (!philo_usleep(philo, philo->table->philo_eat))
+	{
+		return_fork(philo);
+		return (0);
+	}
+	return_fork(philo);
+	return (1);
 }
 
 void	*routine(void *p_philo)
@@ -68,10 +73,8 @@ void	*routine(void *p_philo)
 		print_think(philo);
 		if (!eat_pls(philo))
 			break ;
-		return_fork(philo);
 		to_sleep(philo);
-		//printf("--Philo: %d -> eated: %d--\n", philo->id, philo->eat_count);
-		if (philo->stop_eat == 1 || philo->table->stop_dinner == 1)
+		if (philo->stop_eat || philo->table->stop_dinner)
 			break ;
 	}
 	return (NULL);
@@ -94,19 +97,15 @@ void	start_philo(t_table *table)
 	philo = table->philo;
 	if (table->philo_nb == 1)
 		return (one_philo_routine(table));
-	pthread_create(&monit, NULL, &check_death, (void *)philo);
-	pthread_detach(monit);
-	i = 0;
-	while (i < table->philo_nb)
+	i = -1;
+	while (++i < table->philo_nb)
 	{
 		pthread_create(&table->thrds[i], NULL, &routine, (void *)philo);
-		table->philo = table->philo->next;
-		i++;
+		pthread_create(&monit, NULL, &check_death, (void *)philo);
+		pthread_detach(monit);
+		philo = philo->next;
 	}
-	i = 0;
-	while (i < table->philo_nb)
-	{
+	i = -1;
+	while (++i < table->philo_nb)
 		pthread_join(table->thrds[i], NULL);
-		i++;
-	}
 }

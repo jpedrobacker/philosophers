@@ -21,7 +21,7 @@ t_philo	*populate_philos(char **av, t_table *table)
 
 	head = NULL;
 	i = -1;
-	while(atol(av[1]) > ++i)
+	while (atol(av[1]) > ++i)
 	{
 		aux = malloc(sizeof(t_philo));
 		aux->id = i + 1;
@@ -75,9 +75,4 @@ void	check_infos(char **av, t_table *table)
 	table->thrds = malloc(sizeof(pthread_t) * table->philo_nb);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->philo_nb);
 	table->philo = populate_philos(av, table);
-	/*while (table->philo)
-	{
-		printf("philo: %d\n", table->philo->id);
-		table->philo = table->philo->next;
-	}*/
 }

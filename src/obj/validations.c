@@ -6,11 +6,22 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/02 23:22:51 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/05 00:57:10 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+void	add_infos(t_philo *aux, t_table *table, int i)
+{
+	aux->table = table;
+	aux->eat_count = 0;
+	aux->start = 0;
+	aux->death = 0;
+	aux->is_dead = 0;
+	aux->lfork = &table->forks[i];
+	aux->rfork = &table->forks[(i + 1) % table->philo_nb];
+}
 
 t_philo	*populate_philos(char **av, t_table *table)
 {
@@ -18,20 +29,16 @@ t_philo	*populate_philos(char **av, t_table *table)
 	t_philo		*aux;
 	t_philo		*last;
 	int			i;
+	int			nb_ph;
 
 	head = NULL;
 	i = -1;
-	while (atol(av[1]) > ++i)
+	nb_ph = atol(av[1]);
+	while (nb_ph > ++i)
 	{
 		aux = malloc(sizeof(t_philo));
 		aux->id = i + 1;
-		aux->table = table;
-		aux->eat_count = 0;
-		aux->start = 0;
-		aux->death = 0;
-		aux->is_dead = 0;
-		aux->lfork = &table->forks[i];
-		aux->rfork = &table->forks[(i + 1) % table->philo_nb];
+		add_infos(aux, table, i);
 		aux->next = NULL;
 		if (head == NULL)
 			head = aux;
@@ -67,11 +74,11 @@ void	check_infos(char **av, t_table *table)
 	table->philo_die = ft_atol(av[2]);
 	table->philo_eat = ft_atol(av[3]);
 	table->philo_sleep = ft_atol((av[4]));
-	table->stop_dinner = false;
+	table->stop_dinner = 0;
 	if (av[5])
-		table->philo_nb_meals = ft_atol((av[5]));
+		table->to_eat = ft_atol((av[5]));
 	else
-		table->philo_nb_meals = -1;
+		table->to_eat = -1;
 	table->thrds = malloc(sizeof(pthread_t) * table->philo_nb);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->philo_nb);
 	table->philo = populate_philos(av, table);

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/01 18:48:32 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/05 00:53:19 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_table
 	int				philo_die; //av[2]
 	int				philo_eat; //av[3]
 	int				philo_sleep; //av[4]
-	int				philo_nb_meals; //av[5]
+	int				to_eat; //av[5]
 	int				stop_dinner;
 	long			start_time;
 	t_philo			*philo;

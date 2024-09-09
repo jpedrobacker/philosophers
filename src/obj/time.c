@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 11:01:53 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/02 23:02:13 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:09:38 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,6 @@ int	philo_usleep(t_philo *philo, int time)
 	{
 		if (is_dead(philo))
 			return (0);
-		if (philo->death <= get_cur_time())
-		{
-			philo->is_dead = 1;
-			return (0);
-		}
 		usleep(500);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/05 00:53:19 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:54:09 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,13 @@ typedef struct s_table
 	int				philo_eat; //av[3]
 	int				philo_sleep; //av[4]
 	int				to_eat; //av[5]
-	int				stop_dinner;
 	long			start_time;
 	t_philo			*philo;
 	pthread_t		*thrds;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	m_print;
+	pthread_mutex_t	m_stop;
+	int				stop_dinner;
 }	t_table;
 
 /*-- Philo funcs --*/
@@ -71,7 +73,7 @@ void		print_think(t_philo *philo);
 void		print_death(t_philo *philo);
 void		print_sleep(t_philo *philo);
 void		print_eating(t_philo *philo);
-void		print_forks(t_philo *philo);
+void		print_forks(t_philo *philo, int fork_num);
 
 /*-- Common lib funcs --*/
 size_t		ft_strlen(char const *str);
@@ -85,6 +87,5 @@ void		to_sleep(t_philo *philo);
 
 /*-- Free funcs --*/
 void		end_philo(t_table *table);
-void		to_free(t_table *table);
 
 #endif

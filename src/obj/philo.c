@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/05 00:56:38 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:07:34 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 
 void	*check_death(void *philo_pointer)
 {
-	t_philo	*philo = (t_philo *)philo_pointer;
+	t_philo	*philo;
+	t_philo	*monit;
 
-	while (!philo->table->stop_dinner)
+	philo = (t_philo *)philo_pointer;
+	monit = philo;
+	while (1)
 	{
-		if (get_cur_time() >= philo->death)
+		if (monit->is_dead)
 		{
-			philo->is_dead = 1;
-			philo->table->stop_dinner = 1;
+			monit->table->stop_dinner = 1;
 			print_death(philo);
 			break ;
 		}
-		if (philo->eat_count >= philo->table->to_eat && philo->table->to_eat != -1)
+		if (monit->eat_count == philo->table->to_eat)
 			philo->stop_eat = 1;
-		usleep(1000);
+		philo = philo->next;
+		monit = philo;
 	}
 	return (NULL);
 }
@@ -40,11 +43,9 @@ void	*routine(void *p_philo)
 	philo->start = get_cur_time();
 	philo->death = philo->start + philo->table->philo_die;
 	if (philo->id % 2 == 0)
-		one_philo_usleep(1);
+		usleep(100);
 	while (1)
 	{
-		if (philo->table->stop_dinner)
-			break ;
 		print_think(philo);
 		if (!eat_pls(philo))
 			break ;
@@ -72,12 +73,12 @@ void	start_philo(t_table *table)
 	philo = table->philo;
 	if (table->philo_nb == 1)
 		return (one_philo_routine(table));
+	pthread_create(&monit, NULL, &check_death, (void *)philo);
+	pthread_detach(monit);
 	i = -1;
 	while (++i < table->philo_nb)
 	{
 		pthread_create(&table->thrds[i], NULL, &routine, (void *)philo);
-		pthread_create(&monit, NULL, &check_death, (void *)philo);
-		pthread_detach(monit);
 		philo = philo->next;
 	}
 	i = -1;

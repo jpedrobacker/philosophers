@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:21 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/09 20:12:22 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:51:28 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	eat_pls(t_philo *philo)
 	return (1);
 }
 
-//Fix this func
 int	is_dead(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->table->m_stop);
@@ -56,13 +55,12 @@ int	is_dead(t_philo *philo)
 		pthread_mutex_unlock(&philo->table->m_stop);
 		return (1);
 	}
-	printf("AAAAAAAAAAA\n");
 	if (philo->death <= get_cur_time())
 	{
 		philo->is_dead = 1;
 		pthread_mutex_unlock(&philo->table->m_stop);
 		return (1);
 	}
-	pthread_mutex_lock(&philo->table->m_stop);
+	pthread_mutex_unlock(&philo->table->m_stop);
 	return (0);
 }

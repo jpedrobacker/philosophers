@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/09 19:55:12 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:33:24 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,5 @@ void	check_infos(char **av, t_table *table)
 	table->philo = populate_philos(av, table);
 	pthread_mutex_init(&table->m_print, NULL);
 	pthread_mutex_init(&table->m_stop, NULL);
+	pthread_mutex_init(&table->m_eat, NULL);
 }

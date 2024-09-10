@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:21 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/09 20:51:28 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:44:12 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	eat_pls(t_philo *philo)
 	take_fork(philo);
 	print_eating(philo);
 	philo->death = get_cur_time() + philo->table->philo_die;
+	//pthread_mutex_lock(&philo->table->m_eat);
 	philo->eat_count++;
+	//pthread_mutex_unlock(&philo->table->m_eat);
 	if (!philo_usleep(philo, philo->table->philo_eat))
 	{
 		return_fork(philo);

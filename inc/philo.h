@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/09 19:54:09 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/10 15:45:40 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,39 +53,40 @@ typedef struct s_table
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	m_print;
 	pthread_mutex_t	m_stop;
+	pthread_mutex_t	m_eat;
 	int				stop_dinner;
 }	t_table;
 
 /*-- Philo funcs --*/
-t_philo		*populate_philos(char **av, t_table *table);
-void		check_infos(char **av, t_table *table);
-void		start_forks(t_table *table);
-void		start_philo(t_table *table);
-int			is_dead(t_philo *philo);
+t_philo	*populate_philos(char **av, t_table *table);
+void	check_infos(char **av, t_table *table);
+void	start_forks(t_table *table);
+void	start_philo(t_table *table);
+int		is_dead(t_philo *philo);
 
 /*-- Time funcs --*/
-long		get_cur_time(void);
-int			philo_usleep(t_philo *philo, int time_to_sleep);
-void		one_philo_usleep(int time);
+long	get_cur_time(void);
+int		philo_usleep(t_philo *philo, int time_to_sleep);
+void	one_philo_usleep(int time);
 
 /*-- Print funcs --*/
-void		print_think(t_philo *philo);
-void		print_death(t_philo *philo);
-void		print_sleep(t_philo *philo);
-void		print_eating(t_philo *philo);
-void		print_forks(t_philo *philo, int fork_num);
+void	print_think(t_philo *philo);
+void	print_death(t_philo *philo);
+void	print_sleep(t_philo *philo);
+void	print_eating(t_philo *philo);
+void	print_forks(t_philo *philo, int fork_num);
 
 /*-- Common lib funcs --*/
-size_t		ft_strlen(char const *str);
-long		ft_atol(const char *str);
+size_t	ft_strlen(char const *str);
+long	ft_atol(const char *str);
 
 /*-- Utils funcs --*/
-void		take_fork(t_philo *philo);
-int			eat_pls(t_philo *philo);
-void		return_fork(t_philo *philo);
-void		to_sleep(t_philo *philo);
+void	take_fork(t_philo *philo);
+int		eat_pls(t_philo *philo);
+void	return_fork(t_philo *philo);
+void	to_sleep(t_philo *philo);
 
 /*-- Free funcs --*/
-void		end_philo(t_table *table);
+void	end_philo(t_table *table);
 
 #endif

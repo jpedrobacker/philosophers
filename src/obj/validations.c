@@ -19,8 +19,16 @@ void	add_infos(t_philo *aux, t_table *table, int i)
 	aux->start = 0;
 	aux->death = 0;
 	aux->is_dead = 0;
-	aux->lfork = &table->forks[i];
-	aux->rfork = &table->forks[(i + 1) % table->philo_nb];
+	if (aux->id % 2)
+	{
+		aux->lfork = &table->forks[i];
+		aux->rfork = &table->forks[(i + 1) % table->philo_nb];
+	}
+	else
+	{
+		aux->lfork = &table->forks[(i + 1) % table->philo_nb];
+		aux->rfork = &table->forks[i];
+	}
 }
 
 t_philo	*populate_philos(char **av, t_table *table)

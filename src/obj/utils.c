@@ -12,15 +12,16 @@
 
 #include "../inc/philo.h"
 
-void	take_fork(t_philo *philo)
+void take_fork(t_philo *philo)
 {
-	pthread_mutex_lock(philo->lfork);
-	print_forks(philo, 1);
 	pthread_mutex_lock(philo->rfork);
+	print_forks(philo, 1);
+	pthread_mutex_lock(philo->lfork);
 	print_forks(philo, 2);
+
 }
 
-int	to_sleep(t_philo *philo)
+int to_sleep(t_philo *philo)
 {
 	print_sleep(philo);
 	if (!philo_usleep(philo, philo->table->philo_sleep))
@@ -28,13 +29,13 @@ int	to_sleep(t_philo *philo)
 	return (1);
 }
 
-void	return_fork(t_philo *philo)
+void return_fork(t_philo *philo)
 {
-	pthread_mutex_unlock(philo->lfork);
 	pthread_mutex_unlock(philo->rfork);
+	pthread_mutex_unlock(philo->lfork);
 }
 
-int	eat_pls(t_philo *philo)
+int eat_pls(t_philo *philo)
 {
 	take_fork(philo);
 	print_eating(philo);
@@ -48,23 +49,28 @@ int	eat_pls(t_philo *philo)
 	}
 	return_fork(philo);
 	philo->death = get_cur_time() + philo->table->philo_die;
+	pthread_mutex_lock(&philo->table->m_eat);
+	if (philo->eat_count == philo->table->to_eat)
+		philo->stop_eat = 1;
+	pthread_mutex_unlock(&philo->table->m_eat);
 	return (1);
 }
 
-int	is_dead(t_philo *philo)
+int is_dead(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->table->m_stop);
+	int result;
+
+	result = 0;
+	pthread_mutex_lock(&philo->table->m_eat);
 	if (philo->table->stop_dinner)
-	{
-		pthread_mutex_unlock(&philo->table->m_stop);
-		return (1);
-	}
+		result = 1;
+	pthread_mutex_unlock(&philo->table->m_eat);
+	pthread_mutex_lock(&philo->table->m_eat);
 	if (philo->death <= get_cur_time())
 	{
 		philo->is_dead = 1;
-		pthread_mutex_unlock(&philo->table->m_stop);
-		return (1);
+		result = 1;
 	}
-	pthread_mutex_unlock(&philo->table->m_stop);
-	return (0);
+	pthread_mutex_unlock(&philo->table->m_eat);
+	return (result);
 }

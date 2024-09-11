@@ -21,16 +21,17 @@ void	*check_death(void *philo_pointer)
 	monit = philo;
 	while (1)
 	{
-		if (monit->is_dead)
+		if (monit->eat_count == philo->table->to_eat)
+			philo->stop_eat = 1;
+		if (philo->is_dead == 1)
 		{
-			monit->table->stop_dinner = 1;
+			philo->table->stop_dinner = 1;
 			print_death(philo);
 			break ;
 		}
-		if (monit->eat_count == philo->table->to_eat)
-			philo->stop_eat = 1;
 		philo = philo->next;
 		monit = philo;
+		usleep(1000);
 	}
 	return (NULL);
 }

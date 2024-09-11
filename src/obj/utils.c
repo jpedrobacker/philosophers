@@ -37,9 +37,9 @@ int	eat_pls(t_philo *philo)
 	take_fork(philo);
 	print_eating(philo);
 	philo->death = get_cur_time() + philo->table->philo_die;
-	//pthread_mutex_lock(&philo->table->m_eat);
+	pthread_mutex_lock(&philo->table->m_eat);
 	philo->eat_count++;
-	//pthread_mutex_unlock(&philo->table->m_eat);
+	pthread_mutex_unlock(&philo->table->m_eat);
 	if (!philo_usleep(philo, philo->table->philo_eat))
 	{
 		return_fork(philo);

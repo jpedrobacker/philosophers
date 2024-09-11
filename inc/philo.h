@@ -84,7 +84,7 @@ long	ft_atol(const char *str);
 void	take_fork(t_philo *philo);
 int		eat_pls(t_philo *philo);
 void	return_fork(t_philo *philo);
-void	to_sleep(t_philo *philo);
+int		to_sleep(t_philo *philo);
 
 /*-- Free funcs --*/
 void	end_philo(t_table *table);

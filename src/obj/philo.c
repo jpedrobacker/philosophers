@@ -21,9 +21,11 @@ void	*check_death(void *philo_pointer)
 	monit = philo;
 	while (1)
 	{
+		pthread_mutex_lock(&philo->table->m_eat);
 		if (monit->eat_count == philo->table->to_eat)
 			philo->stop_eat = 1;
-		if (philo->is_dead == 1)
+		pthread_mutex_unlock(&philo->table->m_eat);
+		if (philo->is_dead)
 		{
 			philo->table->stop_dinner = 1;
 			print_death(philo);
@@ -31,7 +33,6 @@ void	*check_death(void *philo_pointer)
 		}
 		philo = philo->next;
 		monit = philo;
-		usleep(1000);
 	}
 	return (NULL);
 }
@@ -50,9 +51,16 @@ void	*routine(void *p_philo)
 		print_think(philo);
 		if (!eat_pls(philo))
 			break ;
-		to_sleep(philo);
-		if (philo->stop_eat || philo->table->stop_dinner)
+		if (!to_sleep(philo))
 			break ;
+		pthread_mutex_lock(&philo->table->m_eat);
+		if (philo->stop_eat || philo->table->stop_dinner)
+		{
+			pthread_mutex_unlock(&philo->table->m_eat);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->table->m_eat);
+
 	}
 	return (NULL);
 }
@@ -85,4 +93,5 @@ void	start_philo(t_table *table)
 	i = -1;
 	while (++i < table->philo_nb)
 		pthread_join(table->thrds[i], NULL);
+	pthread_join(monit, NULL);
 }

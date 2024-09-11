@@ -20,10 +20,12 @@ void	take_fork(t_philo *philo)
 	print_forks(philo, 2);
 }
 
-void	to_sleep(t_philo *philo)
+int	to_sleep(t_philo *philo)
 {
 	print_sleep(philo);
-	philo_usleep(philo, philo->table->philo_sleep);
+	if (!philo_usleep(philo, philo->table->philo_sleep))
+		return (0);
+	return (1);
 }
 
 void	return_fork(t_philo *philo)
@@ -36,7 +38,6 @@ int	eat_pls(t_philo *philo)
 {
 	take_fork(philo);
 	print_eating(philo);
-	philo->death = get_cur_time() + philo->table->philo_die;
 	pthread_mutex_lock(&philo->table->m_eat);
 	philo->eat_count++;
 	pthread_mutex_unlock(&philo->table->m_eat);
@@ -46,6 +47,7 @@ int	eat_pls(t_philo *philo)
 		return (0);
 	}
 	return_fork(philo);
+	philo->death = get_cur_time() + philo->table->philo_die;
 	return (1);
 }
 

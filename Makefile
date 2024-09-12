@@ -1,7 +1,7 @@
 NAME = philo
 CC = gcc
 CFLAGS = -Wall -Werror -Wextra -pthread -fsanitize=thread -I ./inc
-THREADS = -pthread
+THREADS = -fsanitize=thread
 SRC_DIR = src/obj
 FIND = $(shell find $(SRC_DIR))
 SRC = $(filter %.c, $(FIND))

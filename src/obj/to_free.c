@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:57:14 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/10 15:35:44 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:10:27 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,4 @@ void	end_philo(t_table *table)
 		free(table->thrds);
 	if (table->philo)
 		free(table->philo);
-
 }

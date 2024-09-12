@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/12 10:00:22 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:16:44 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	start_philo(t_table *table)
 	if (table->philo_nb == 1)
 		return (one_philo_routine(table));
 	pthread_create(&monit, NULL, &check_death, (void *)philo);
-	//pthread_detach(monit);
+	pthread_detach(monit);
 	i = -1;
 	while (++i < table->philo_nb)
 	{
@@ -85,5 +85,4 @@ void	start_philo(t_table *table)
 	i = -1;
 	while (++i < table->philo_nb)
 		pthread_join(table->thrds[i], NULL);
-	pthread_join(monit, NULL);
 }

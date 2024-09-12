@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/10 15:45:40 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:01:10 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ long	ft_atol(const char *str);
 void	take_fork(t_philo *philo);
 int		eat_pls(t_philo *philo);
 void	return_fork(t_philo *philo);
-int		to_sleep(t_philo *philo);
+void	to_sleep(t_philo *philo);
 
 /*-- Free funcs --*/
 void	end_philo(t_table *table);

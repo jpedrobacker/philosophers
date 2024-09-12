@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/10 15:36:47 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:00:22 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,23 @@
 
 void	*check_death(void *philo_pointer)
 {
-	int		eat_num;
 	t_philo	*philo;
+	t_philo	*monit;
 
-	eat_num = 0;
 	philo = (t_philo *)philo_pointer;
+	monit = philo;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->table->m_eat);
+		if (monit->eat_count == philo->table->to_eat)
+			philo->stop_eat = 1;
 		if (philo->is_dead == 1)
 		{
 			philo->table->stop_dinner = 1;
 			print_death(philo);
-			pthread_mutex_unlock(&philo->table->m_eat);
 			break ;
 		}
-		if (eat_num == philo->table->philo_nb)
-		{
-			pthread_mutex_unlock(&philo->table->m_eat);
-			break ;
-		}
-		pthread_mutex_unlock(&philo->table->m_eat);
 		philo = philo->next;
+		monit = philo;
 		usleep(1000);
 	}
 	return (NULL);
@@ -55,15 +50,9 @@ void	*routine(void *p_philo)
 		print_think(philo);
 		if (!eat_pls(philo))
 			break ;
-		if (!to_sleep(philo))
-			break ;
-		pthread_mutex_lock(&philo->table->m_eat);
+		to_sleep(philo);
 		if (philo->stop_eat || philo->table->stop_dinner)
-		{
-			pthread_mutex_unlock(&philo->table->m_eat);
 			break ;
-		}
-		pthread_mutex_unlock(&philo->table->m_eat);
 	}
 	return (NULL);
 }

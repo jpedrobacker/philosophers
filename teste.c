@@ -110,12 +110,10 @@ void	take_fork(t_philo *philo)
 	print_forks(philo, 2);
 }
 
-int	to_sleep(t_philo *philo)
+void	to_sleep(t_philo *philo)
 {
 	print_sleep(philo);
-	if (!philo_usleep(philo, philo->table->philo_sleep))
-		return (0);
-	return (1);
+	philo_usleep(philo, philo->table->philo_sleep);
 }
 
 void	return_fork(t_philo *philo)
@@ -133,11 +131,12 @@ int	eat_pls(t_philo *philo)
 	pthread_mutex_unlock(&philo->table->m_eat);
 	if (!philo_usleep(philo, philo->table->philo_eat))
 	{
+		philo->death = get_cur_time() + philo->table->philo_die;
 		return_fork(philo);
 		return (0);
 	}
-	return_fork(philo);
 	philo->death = get_cur_time() + philo->table->philo_die;
+	return_fork(philo);
 	return (1);
 }
 
@@ -250,7 +249,6 @@ void	end_philo(t_table *table)
 		free(table->thrds);
 	if (table->philo)
 		free(table->philo);
-
 }
 
 void	print_think(t_philo *philo)
@@ -306,11 +304,9 @@ void	*check_death(void *philo_pointer)
 	monit = philo;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->table->m_eat);
 		if (monit->eat_count == philo->table->to_eat)
 			philo->stop_eat = 1;
-		pthread_mutex_unlock(&philo->table->m_eat);
-		if (philo->is_dead)
+		if (philo->is_dead == 1)
 		{
 			philo->table->stop_dinner = 1;
 			print_death(philo);
@@ -318,6 +314,7 @@ void	*check_death(void *philo_pointer)
 		}
 		philo = philo->next;
 		monit = philo;
+		usleep(1000);
 	}
 	return (NULL);
 }
@@ -336,16 +333,9 @@ void	*routine(void *p_philo)
 		print_think(philo);
 		if (!eat_pls(philo))
 			break ;
-		if (!to_sleep(philo))
-			break ;
-		pthread_mutex_lock(&philo->table->m_eat);
+		to_sleep(philo);
 		if (philo->stop_eat || philo->table->stop_dinner)
-		{
-			pthread_mutex_unlock(&philo->table->m_eat);
 			break ;
-		}
-		pthread_mutex_unlock(&philo->table->m_eat);
-
 	}
 	return (NULL);
 }
@@ -378,7 +368,6 @@ void	start_philo(t_table *table)
 	i = -1;
 	while (++i < table->philo_nb)
 		pthread_join(table->thrds[i], NULL);
-	pthread_join(monit, NULL);
 }
 
 int	validate_input(int ac, char **av)

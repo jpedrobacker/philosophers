@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/12 10:11:01 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:13:35 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	check_infos(char **av, t_table *table)
 		table->to_eat = ft_atol((av[5]));
 	else
 		table->to_eat = -1;
-	table->thrds = malloc(sizeof(pthread_t) * table->philo_nb);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->philo_nb);
 	table->philo = populate_philos(av, table);
 	pthread_mutex_init(&table->m_print, NULL);

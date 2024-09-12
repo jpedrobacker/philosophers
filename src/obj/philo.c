@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/12 12:19:04 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:24:37 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	*check_death(void *philo_pointer)
 		if (philo->table->stop_dinner)
 			break ;
 		philo = philo->next;
-		usleep(1000);
+		usleep(500);
 	}
 	return (NULL);
 }

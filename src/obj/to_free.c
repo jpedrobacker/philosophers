@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 13:57:14 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/12 12:14:38 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:16:46 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	clear_philos(t_philo *philo)
 {
+	int		i;
 	t_philo	*tmp;
-	t_philo	*first;
 
 	if (!philo)
 		return ;
-	first = philo;
-	while (philo->next != first)
+	i = -1;
+	while (++i < philo->table->philo_nb)
 	{
 		tmp = philo->next;
 		free(philo);

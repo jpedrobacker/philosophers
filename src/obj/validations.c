@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/12 12:13:35 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:28:08 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,22 @@ t_philo	*populate_philos(char **av, t_table *table)
 	int			nb_ph;
 
 	head = NULL;
+	last = NULL;
 	i = -1;
-	nb_ph = atol(av[1]);
+	nb_ph = ft_atol(av[1]);
 	while (nb_ph > ++i)
 	{
 		aux = malloc(sizeof(t_philo));
 		aux->id = i + 1;
 		add_infos(aux, table, i);
 		aux->next = NULL;
-		if (head == NULL)
+		if (!head)
 			head = aux;
 		else
 			last->next = aux;
 		last = aux;
 	}
-	aux->next = head;
+	last->next = head;
 	return (head);
 }
 

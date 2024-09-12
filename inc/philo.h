@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:36 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/12 12:12:36 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:26:43 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ void	to_sleep(t_philo *philo);
 
 /*-- Free funcs --*/
 void	end_philo(t_table *table);
+void	clear_philos(t_philo *philo);
 
 #endif

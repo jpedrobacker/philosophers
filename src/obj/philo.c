@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 17:04:08 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/12 12:12:44 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:19:04 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,10 @@ void	start_philo(t_table *table)
 	t_philo		*philo;
 
 	philo = table->philo;
-	thrds = malloc(sizeof(pthread_t) * table->philo_nb);
 	table->start_time = get_cur_time();
 	if (table->philo_nb == 1)
 		return (one_philo_routine(table));
+	thrds = malloc(sizeof(pthread_t) * table->philo_nb);
 	pthread_create(&monit, NULL, &check_death, (void *)philo);
 	pthread_detach(monit);
 	i = -1;

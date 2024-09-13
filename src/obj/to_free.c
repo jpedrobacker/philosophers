@@ -15,16 +15,19 @@
 void	clear_philos(t_philo *philo)
 {
 	int		i;
+	int		size;
 	t_philo	*tmp;
 
 	if (!philo)
 		return ;
 	i = -1;
-	while (++i < philo->table->philo_nb)
+	tmp = philo;
+	size = philo->table->philo_nb;
+	while (++i < size)
 	{
-		tmp = philo->next;
-		free(philo);
-		philo = tmp;
+		philo = tmp->next;
+		free(tmp);
+		tmp = philo;
 	}
 }
 

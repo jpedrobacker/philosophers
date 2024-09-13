@@ -40,3 +40,6 @@ re: fclean all
 
 debug:	CFLAGS += -ggdb3
 debug:	fclean ${NAME}
+
+fsanitize:	C_FLAGS += -fsanitize=thread
+fsanitize:	fclean ${NAME}

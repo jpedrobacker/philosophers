@@ -64,7 +64,7 @@ void	start_forks(t_table *table)
 	}
 }
 
-void	check_infos(char **av, t_table *table)
+int	check_infos(char **av, t_table *table)
 {
 	int	i;
 
@@ -72,7 +72,10 @@ void	check_infos(char **av, t_table *table)
 	if (i < 200 && i > 0)
 		table->philo_nb = i;
 	else
+	{
 		printf("Wrong number of philos!\n");
+		return (0);
+	}
 	table->philo_die = ft_atol(av[2]);
 	table->philo_eat = ft_atol(av[3]);
 	table->philo_sleep = ft_atol((av[4]));
@@ -87,4 +90,5 @@ void	check_infos(char **av, t_table *table)
 	pthread_mutex_init(&table->m_print, NULL);
 	pthread_mutex_init(&table->m_stop, NULL);
 	pthread_mutex_init(&table->m_eat, NULL);
+	return (1);
 }

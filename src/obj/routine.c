@@ -14,8 +14,13 @@
 
 void	print_think(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->table->m_stop);
 	if (philo->table->stop_dinner == 1 || philo->is_dead == 1)
+	{
+		pthread_mutex_unlock(&philo->table->m_stop);
 		return ;
+	}
+	pthread_mutex_unlock(&philo->table->m_stop);
 	pthread_mutex_lock(&philo->table->m_print);
 	printf("%ld %d is thinking\n", get_cur_time()
 		- philo->table->start_time, philo->id);
@@ -32,8 +37,13 @@ void	print_death(t_philo *philo)
 
 void	print_sleep(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->table->m_stop);
 	if (philo->table->stop_dinner == 1 || philo->is_dead == 1)
+	{
+		pthread_mutex_unlock(&philo->table->m_stop);
 		return ;
+	}
+	pthread_mutex_unlock(&philo->table->m_stop);
 	pthread_mutex_lock(&philo->table->m_print);
 	printf("%ld %d is sleeping\n", get_cur_time()
 		- philo->table->start_time, philo->id);
@@ -42,8 +52,13 @@ void	print_sleep(t_philo *philo)
 
 void	print_eating(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->table->m_stop);
 	if (philo->table->stop_dinner == 1 || philo->is_dead == 1)
+	{
+		pthread_mutex_unlock(&philo->table->m_stop);
 		return ;
+	}
+	pthread_mutex_unlock(&philo->table->m_stop);
 	pthread_mutex_lock(&philo->table->m_print);
 	printf("%ld %d is eating\n", get_cur_time()
 		- philo->table->start_time, philo->id);
@@ -52,8 +67,13 @@ void	print_eating(t_philo *philo)
 
 void	print_forks(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->table->m_stop);
 	if (philo->table->stop_dinner == 1 || philo->is_dead == 1)
+	{
+		pthread_mutex_unlock(&philo->table->m_stop);
 		return ;
+	}
+	pthread_mutex_unlock(&philo->table->m_stop);
 	pthread_mutex_lock(&philo->table->m_print);
 	printf("%ld %d has taken a fork\n", get_cur_time()
 		- philo->table->start_time, philo->id);

@@ -31,7 +31,7 @@ int	validate_input(int ac, char **av)
 		while (av[i][j])
 		{
 			if (av[i][j] < 48 || av[i][j] > 57)
-				return (0);
+				return (printf("Wrong type of arg!\n"), 0);
 			j++;
 		}
 		i++;
@@ -45,7 +45,8 @@ int	main(int ac, char **av)
 
 	if (!validate_input(ac, av))
 		return (0);
-	check_infos(av, &table);
+	if (!check_infos(av, &table))
+		return (0);
 	start_forks(&table);
 	start_philo(&table);
 	end_philo(&table);

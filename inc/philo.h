@@ -59,7 +59,7 @@ typedef struct s_table
 
 /*-- Philo funcs --*/
 t_philo	*populate_philos(char **av, t_table *table);
-void	check_infos(char **av, t_table *table);
+int		check_infos(char **av, t_table *table);
 void	start_forks(t_table *table);
 void	start_philo(t_table *table);
 int		is_dead(t_philo *philo);

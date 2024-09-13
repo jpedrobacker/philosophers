@@ -6,7 +6,7 @@
 /*   By: jbergfel <jbergfel@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 09:38:41 by jbergfel          #+#    #+#             */
-/*   Updated: 2024/09/12 13:28:08 by jbergfel         ###   ########.fr       */
+/*   Updated: 2024/09/12 22:41:16 by jbergfel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	add_infos(t_philo *aux, t_table *table, int i)
 	aux->start = 0;
 	aux->death = 0;
 	aux->is_dead = 0;
+	aux->stop_eat = 0;
 	aux->lfork = &table->forks[i];
 	aux->rfork = &table->forks[(i + 1) % table->philo_nb];
 }

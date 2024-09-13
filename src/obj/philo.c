@@ -19,14 +19,15 @@ void	*check_death(void *philo_pointer)
 	philo = (t_philo *)philo_pointer;
 	while (1)
 	{
+		pthread_mutex_lock(&philo->table->m_stop);
 		if (philo->is_dead == 1)
 		{
-			pthread_mutex_lock(&philo->table->m_stop);
 			philo->table->stop_dinner = 1;
-			pthread_mutex_unlock(&philo->table->m_stop);
 			print_death(philo);
+			pthread_mutex_unlock(&philo->table->m_stop);
 			break ;
 		}
+		pthread_mutex_unlock(&philo->table->m_stop);
 		pthread_mutex_lock(&philo->table->m_eat);
 		if (!philo->table->eaten)
 		{

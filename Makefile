@@ -19,7 +19,7 @@ $(NAME): $(OBJ)
 		clear
 
 hell:
-	valgrind --tool=helgrind ./philo 4 800 200 200 3
+	valgrind --tool=helgrind ./philo 4 410 200 200
 
 git:
 	@git add -A

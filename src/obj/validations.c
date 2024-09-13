@@ -83,6 +83,7 @@ void	check_infos(char **av, t_table *table)
 		table->to_eat = -1;
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->philo_nb);
 	table->philo = populate_philos(av, table);
+	table->eaten = table->philo_nb;
 	pthread_mutex_init(&table->m_print, NULL);
 	pthread_mutex_init(&table->m_stop, NULL);
 	pthread_mutex_init(&table->m_eat, NULL);

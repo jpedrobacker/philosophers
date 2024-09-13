@@ -17,16 +17,16 @@ void	take_fork(t_philo *philo)
 	if (philo->id % 2 == 1)
 	{
 		pthread_mutex_lock(philo->lfork);
-		print_forks(philo, 1);
+		print_forks(philo);
 		pthread_mutex_lock(philo->rfork);
-		print_forks(philo, 2);
+		print_forks(philo);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->rfork);
-		print_forks(philo, 2);
+		print_forks(philo);
 		pthread_mutex_lock(philo->lfork);
-		print_forks(philo, 1);
+		print_forks(philo);
 	}
 }
 

@@ -27,12 +27,38 @@ void	*check_death(void *philo_pointer)
 			print_death(philo);
 			break ;
 		}
-		if (philo->table->stop_dinner)
+		pthread_mutex_lock(&philo->table->m_eat);
+		if (!philo->table->eaten)
+		{
+			pthread_mutex_unlock(&philo->table->m_eat);
 			break ;
+		}
+		pthread_mutex_unlock(&philo->table->m_eat);
 		philo = philo->next;
 		usleep(500);
 	}
 	return (NULL);
+}
+
+int	have_eaten(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->m_eat);
+	if (philo->eat_count == philo->table->to_eat)
+	{
+		philo->table->eaten--;
+		if (!philo->table->eaten)
+		{
+			pthread_mutex_unlock(&philo->table->m_eat);
+			pthread_mutex_lock(&philo->table->m_stop);
+			philo->stop_eat = 1;
+			pthread_mutex_unlock(&philo->table->m_stop);
+		}
+		else
+			pthread_mutex_unlock(&philo->table->m_eat);
+		return (0);
+	}
+	pthread_mutex_unlock(&philo->table->m_eat);
+	return (1);
 }
 
 void	*routine(void *p_philo)
@@ -50,7 +76,7 @@ void	*routine(void *p_philo)
 		if (!eat_pls(philo))
 			break ;
 		to_sleep(philo);
-		if (philo->stop_eat || philo->table->stop_dinner)
+		if (!have_eaten(philo))
 			break ;
 	}
 	return (NULL);
@@ -76,7 +102,6 @@ void	start_philo(t_table *table)
 		return (one_philo_routine(table));
 	thrds = malloc(sizeof(pthread_t) * table->philo_nb);
 	pthread_create(&monit, NULL, &check_death, (void *)philo);
-	pthread_detach(monit);
 	i = -1;
 	while (++i < table->philo_nb)
 	{
@@ -86,5 +111,6 @@ void	start_philo(t_table *table)
 	i = -1;
 	while (++i < table->philo_nb)
 		pthread_join(thrds[i], NULL);
+	pthread_join(monit, NULL);
 	free(thrds);
 }

@@ -1,6 +1,6 @@
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -pthread -fsanitize=thread -I ./inc
+CFLAGS = -Wall -Werror -Wextra -pthread -I ./inc
 THREADS = -fsanitize=thread
 SRC_DIR = src/obj
 FIND = $(shell find $(SRC_DIR))
@@ -17,6 +17,9 @@ $(NAME): $(OBJ)
 		$(CC) $(CFLAGS) src/main.c philo.a -o $(NAME)
 		make clean
 		clear
+
+hell:
+	valgrind --tool=helgrind ./philo 4 800 200 200 3
 
 git:
 	@git add -A

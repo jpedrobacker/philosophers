@@ -42,12 +42,13 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	int				philo_nb; //av[1]
-	int				philo_die; //av[2]
-	int				philo_eat; //av[3]
-	int				philo_sleep; //av[4]
-	int				to_eat; //av[5]
+	int				philo_nb;
+	int				philo_die;
+	int				philo_eat;
+	int				philo_sleep;
+	int				to_eat;
 	long			start_time;
+	int				eaten;
 	t_philo			*philo;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	m_print;
@@ -73,7 +74,7 @@ void	print_think(t_philo *philo);
 void	print_death(t_philo *philo);
 void	print_sleep(t_philo *philo);
 void	print_eating(t_philo *philo);
-void	print_forks(t_philo *philo, int fork_num);
+void	print_forks(t_philo *philo);
 
 /*-- Common lib funcs --*/
 size_t	ft_strlen(char const *str);

@@ -42,4 +42,3 @@ void	end_philo(t_table *table)
 		free(table->forks);
 	clear_philos(table->philo);
 }
-
